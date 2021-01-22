@@ -10,16 +10,7 @@ public class HttpClientConstant {
 	public static final String ISO8859_1 = "iso8859-1";
 	public static final String SHA_1 = "SHA-1";
 
-	public static enum WechatHttpType {
-		/** 普通 */
-		base,
-		/** 第三方平台 */
-		thirdplat,
-		/** 第三方平台授权 */
-		thirdplat_auth,
-		/** 非第三方平台 */
-		no_thirdplat
-	}
+
 
 	public static enum HeaderType {
 

@@ -2,6 +2,7 @@ package com.liuyuan.http.service;
 
 import com.liuyuan.http.req.EtcOrderBo;
 import com.liuyuan.http.req.EtcOrderQueryRequest;
+import com.liuyuan.http.req.PingData;
 
 
 /**
@@ -15,6 +16,10 @@ public interface ThridApiService {
      * @param req
      * @return
      */
-    EtcOrderBo sendApiRequest(EtcOrderQueryRequest req) throws Throwable;
-    EtcOrderBo sendTencentRequest(EtcOrderQueryRequest req) throws Throwable;
+    PingData  sendApiRequest(EtcOrderQueryRequest req) throws Throwable;
+
+
+    PingData  sendApiRequest1(EtcOrderQueryRequest req) throws Throwable;
+
+
 }

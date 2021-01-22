@@ -148,13 +148,13 @@ public class ApiHttpClientOperation extends AbstractHttpClientOperation
     public <T, P> T doSendGetBasicRequest(CloseableHttpClient httpClient, HttpTask<P> task,
                                           HttpResponseCallback<T> callback) throws Throwable {
         task.setUrl(getTenCentUrl((ThirdApiHttpTask<P>) task));
-        HttpGet httpGet = new HttpGet(task.getData() != null
+        HttpGet httpGet = new HttpGet(/*task.getData() != null
                 ? StringHelper.concatUri(task.getUrl(), StringHelper.parseURLPair(task.getData()))
-                : task.getUrl());
-        if (task.getContentType() != null) {
-            httpGet.setHeader(HttpClientConstant.HeaderType.CONTENT_TYPE_KEY.getType(),
-                    task.getContentType().getMimeType());
-        }
+                : */task.getUrl());
+//        if (task.getContentType() != null) {
+//            httpGet.setHeader(HttpClientConstant.HeaderType.CONTENT_TYPE_KEY.getType(),
+//                    task.getContentType().getMimeType());
+//        }
         try {
             return httpClient.execute(httpGet, callback, task.getContext());
         } catch (Throwable e) {
@@ -169,10 +169,10 @@ public class ApiHttpClientOperation extends AbstractHttpClientOperation
             @Override
             public T doCallback(CloseableHttpResponse response) throws Throwable {
                 String retStr = EntityUtils.toString(response.getEntity(), HttpClientConstant.UTF_8);
-                if (logger.isDebugEnabled()) {
+//                if (logger.isDebugEnabled()) {
                     logger.debug("doSendPostRequest request data:{}; response data: {}",
                             JsonUtil.seriazileAsString(task), retStr);
-                }
+//                }
                 return ThirdApiResult.convertTenCentLoaction(retStr, task.getClazz());
             }
         });
@@ -184,10 +184,10 @@ public class ApiHttpClientOperation extends AbstractHttpClientOperation
             @Override
             public T doCallback(CloseableHttpResponse response) throws Throwable {
                 String retStr = EntityUtils.toString(response.getEntity(), HttpClientConstant.UTF_8);
-                if (logger.isDebugEnabled()) {
+//                if (logger.isDebugEnabled()) {
                     logger.debug("doSendGetRequest request data:{}; response data: {}",
                             JsonUtil.seriazileAsString(task), retStr);
-                }
+//                }
                 return ThirdApiResult.convertTenCentLoaction(retStr, task.getClazz());
             }
         });

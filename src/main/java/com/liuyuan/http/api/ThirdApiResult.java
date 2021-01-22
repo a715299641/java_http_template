@@ -1,7 +1,12 @@
 package com.liuyuan.http.api;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.liuyuan.http.constant.BusiConstant;
 import com.liuyuan.http.http.LocationHttpResult;
+import com.liuyuan.http.util.JsonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,10 +35,25 @@ public class ThirdApiResult extends LocationHttpResult {
      */
     @SuppressWarnings("unchecked")
     public static <T> T convertTenCentLoaction(String data, Type clazz) {
-        return null;
+        if (StringUtils.isEmpty(data)) {
+            return null;
+        }
+
+        // 报文中包含 "status":0
+        if (data.contains("\"errcode\": 0,")) {
+            return JsonUtil.deserializeAsObject(data, clazz);
+        } else if (data.contains("\"errcode\":")) {
+            ThirdApiResult tenCentResult = JsonUtil.deserializeAsObject(data, ThirdApiResult.class);
+            ThirdApiResultEnum tenCentResultEnum = ThirdApiResultEnum.getThirdApiResultEnumByCode(tenCentResult.getStatus());
+            tenCentResult.setMessage((tenCentResultEnum.getCode() == ThirdApiResultEnum.EX_1.getCode())
+                    ? (ThirdApiResultEnum.EX_1.getMsg() + " : " + data) : tenCentResultEnum.getMsg());
+            return (T) tenCentResult;
+        }else {
+            return JsonUtil.deserializeAsObject(data, clazz);
+        }
     }
 
-    public enum TenCentResultEnum {
+    public enum ThirdApiResultEnum {
         EX__1(-1,"系统繁忙"),
         EX_0(0,"请求成功"),
         EX_7(110,"请求来源未被授权，此次请求无来源信息"),
@@ -48,7 +68,7 @@ public class ThirdApiResult extends LocationHttpResult {
 
         private String msg;
 
-        private TenCentResultEnum(int code, String msg) {
+        private ThirdApiResultEnum(int code, String msg) {
             this.code = code;
             this.msg = msg;
         }
@@ -69,9 +89,9 @@ public class ThirdApiResult extends LocationHttpResult {
             this.msg = msg;
         }
 
-        public static TenCentResultEnum getTenCentResultEnumByCode(int code) {
+        public static ThirdApiResultEnum getThirdApiResultEnumByCode(int code) {
             try {
-                return TenCentResultEnum.valueOf(code >= 0 ? "EX_" + code : "EX__" + Math.abs(code));
+                return ThirdApiResultEnum.valueOf(code >= 0 ? "EX_" + code : "EX__" + Math.abs(code));
             } catch (Exception e) {
                 return EX_1;
             }

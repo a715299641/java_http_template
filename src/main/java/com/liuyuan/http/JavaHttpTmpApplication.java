@@ -4,6 +4,9 @@ import com.liuyuan.http.api.ApiHttpClientOperation;
 import com.liuyuan.http.api.TencentHttpClientOperation;
 import com.liuyuan.http.http.HttpClientFactoryBean;
 import com.liuyuan.http.http.HttpClientTemplate;
+import com.liuyuan.http.service.impl.ThridApiServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +16,8 @@ import org.springframework.context.annotation.Bean;
  */
 @SpringBootApplication
 public class JavaHttpTmpApplication {
+    @Autowired
+    private ThridApiServiceImpl thridApiService;
 
     public static void main(String[] args) {
         SpringApplication.run(JavaHttpTmpApplication.class, args);
@@ -36,7 +41,8 @@ public class JavaHttpTmpApplication {
     @Bean(name = "apiHttpClientFactoryBean")
     public HttpClientFactoryBean getHttpClientFactoryBean() {
         HttpClientFactoryBean factoryBean = new HttpClientFactoryBean();
-        factoryBean.setMaxTotal(300);
+        factoryBean.setMaxTotal(1);
+        factoryBean.setRetry(1);
         return factoryBean;
     }
 
@@ -62,5 +68,14 @@ public class JavaHttpTmpApplication {
         HttpClientFactoryBean factoryBean = new HttpClientFactoryBean();
         factoryBean.setMaxTotal(100);
         return factoryBean;
+    }
+
+    @Bean
+    public ApplicationRunner runner() throws Throwable {
+//        EtcOrderQueryRequest request = new EtcOrderQueryRequest();
+//        request.setPage(1L);
+//        request.setSize(50L);
+//        PingData pingData = thridApiService.sendApiRequest(request);
+        return args -> System.out.println(123);
     }
 }
