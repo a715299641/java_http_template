@@ -79,15 +79,13 @@ public class TencentHttpClientOperation extends AbstractHttpClientOperation
      */
     @Override
     public <T, P> T exec(final HttpClientCallback<T> callback, final HttpTask<P> task) throws Throwable {
-        System.out.println(httpClientFactoryBean);
-        System.out.println(httpClientFactoryBeanKey);
-        System.out.println(defaultRequestConfig);
         return doCallbackWhenLockFailedToRetry(new Callback<T>() {
             @Override
             public T doCallback() throws Throwable {
                 try {
-                    return callback.doCallback(httpClientFactoryBean.getHttpClient(
-                            task.getRequestConfig() == null ? defaultRequestConfig : task.getRequestConfig()));
+                    CloseableHttpClient httpClient = httpClientFactoryBean.getHttpClient(task.getRequestConfig() == null ? defaultRequestConfig : task.getRequestConfig());
+                    System.out.println(httpClient);
+                    return callback.doCallback(httpClient);
                 } catch (Exception e) {
                     throw e;
                 }

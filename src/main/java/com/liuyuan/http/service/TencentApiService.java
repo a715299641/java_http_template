@@ -12,5 +12,5 @@ import com.liuyuan.http.req.PingData;
 public interface TencentApiService {
 
 
-    EtcOrderBo sendTencentRequest(EtcOrderQueryRequest req) throws Throwable;
+    PingData sendTencentRequest(EtcOrderQueryRequest req) throws Throwable;
 }

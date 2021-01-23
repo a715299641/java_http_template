@@ -63,30 +63,8 @@ public enum StatusCodeConstant {
 
 	//http相关450-469
 	HTTP_RESPONSE_ERR(450, "HTTP响应错误！"),
-	//微信http 相关 469-480
-    WECHAT_REQUEST_INVALID(454, "微信无效请求！"),
-	WECHAT_PARAM_ERR(455, "微信请求参数错误！"),
 
-	//邮件相关
-	//邮件模板500 - 520
-	MAIL_TEMPLATE_TYPE_NOT_NULL(500, "邮件模板业务类型不能为空"),
-	MAIL_TEMPLATE_TYPE_DEFINE_NULL(501, "邮件模板业务类型定义不能为空"),
-	MAIL_TEMPLATE_DEFINE_NULL(502, "邮件模板定义为空"),
-	MAIL_TEMPLATE_DEFINE_CONTENT_NULL(503, "邮件模板定义内容为空"),
-	VALI_CODE_SEND_MAIL_FAILED(504, "发送邮件验证码失败,可能是错误的邮箱地址"),
-	TEMPLATE_NAME_REQUIRED(505, "模板名称不能为空"),
-	TEMPLATE_TYPE_REQUIRED(506, "模板类型不能为空"),
-	TEMPLATE_ID_REQUIRED(507, "引用模板不能为空"),
-	CURRENT_USER_NOT_ENOUGH_RIGHTS(508, "没有操作权限"),
-	//聊天消息(550-600
-	ChatMsgTypeRequired(550, "消息类型不能为空"),
-	ChatMsgBusiIdRequired(551, "消息业务id不能为空"),
-	ChatMsgContentRequired(552, "消息内容不能为空"),
-	ChatMsgContentTooLong(553, "消息内容长度不能超过120个字"),
-	//权限600-650
-	USER_NOT_ENOUGH_AUTH(600, "用户没有权限"),
 
-	ALIPAY_PAY_FORM_ERR(700, "创建支付宝付款参数错误"),
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ;
 

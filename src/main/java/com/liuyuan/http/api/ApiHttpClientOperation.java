@@ -169,10 +169,8 @@ public class ApiHttpClientOperation extends AbstractHttpClientOperation
             @Override
             public T doCallback(CloseableHttpResponse response) throws Throwable {
                 String retStr = EntityUtils.toString(response.getEntity(), HttpClientConstant.UTF_8);
-//                if (logger.isDebugEnabled()) {
                     logger.debug("doSendPostRequest request data:{}; response data: {}",
                             JsonUtil.seriazileAsString(task), retStr);
-//                }
                 return ThirdApiResult.convertTenCentLoaction(retStr, task.getClazz());
             }
         });
@@ -184,10 +182,8 @@ public class ApiHttpClientOperation extends AbstractHttpClientOperation
             @Override
             public T doCallback(CloseableHttpResponse response) throws Throwable {
                 String retStr = EntityUtils.toString(response.getEntity(), HttpClientConstant.UTF_8);
-//                if (logger.isDebugEnabled()) {
                     logger.debug("doSendGetRequest request data:{}; response data: {}",
                             JsonUtil.seriazileAsString(task), retStr);
-//                }
                 return ThirdApiResult.convertTenCentLoaction(retStr, task.getClazz());
             }
         });

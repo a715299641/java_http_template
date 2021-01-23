@@ -14,7 +14,7 @@ import java.io.IOException;
 
 /**
  * 抽象httpclient操作类实现，实现了共有的操作， 有差异的操作留给子类去实现
- * 
+ *
  * @author liuyuan
  */
 public abstract class AbstractHttpClientOperation implements HttpClientOperation {
@@ -135,7 +135,6 @@ public abstract class AbstractHttpClientOperation implements HttpClientOperation
 	 */
 	protected <T, V> T doCallbackWhenLockFailedToRetry(Callback<T> callback, Object errorParams) throws Throwable {
 		int _retry_times = 0;
-//		TransactionLockException lockException = null;
 
 		do {
 			try {
@@ -156,11 +155,6 @@ public abstract class AbstractHttpClientOperation implements HttpClientOperation
 				//返回结果
 				return result;
 			}
-//			catch
-//			(TransactionLockException e) {
-//				logger.warn("invoking http has exception: {}, \n retry times {}", e.getMessage(), _retry_times);
-//				lockException = e;
-//			}
 			catch (DefaultHttpResponseException e) {
 				//微信异常处理
 				if (errorParams != null) {
@@ -177,11 +171,6 @@ public abstract class AbstractHttpClientOperation implements HttpClientOperation
 			}
 		} while (++_retry_times <= getRetryMaxTimes());
 		// retry fail error log
-//		if (lockException != null) {
-//			if (logger.isDebugEnabled()) {
-//				logger.error("Lock retry [" + getRetryMaxTimes() + "]times still fail. \n errorParams: " + errorParams, lockException);
-//			}
-//		}
 		return null;
 	}
 	/**

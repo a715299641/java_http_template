@@ -54,7 +54,7 @@ public class TestController {
         EtcOrderQueryRequest request = new EtcOrderQueryRequest();
         request.setPage(1L);
         request.setSize(50L);
-        EtcOrderBo etcOrderBo1 = tencentService.sendTencentRequest(request);
+        PingData etcOrderBo1 = tencentService.sendTencentRequest(request);
         System.out.println(2);
 
     }
