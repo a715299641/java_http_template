@@ -5,7 +5,7 @@ public class BusiConstant {
 	public static final String ALL = "ALL";
 
 
-	public static final String URL_1 = "http://127.0.0.1:8080/v1/dev/ping";
+	public static final String URL_1 = "http://127.0.0.1:9001/test3";
 	public static final String URL_2 = "https://vas.wlhyos.dev.kuaihuoyun.com/v1/dev/ping";
 
 

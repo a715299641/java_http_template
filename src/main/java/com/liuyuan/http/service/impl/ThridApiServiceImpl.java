@@ -25,20 +25,20 @@ public class ThridApiServiceImpl implements ThridApiService {
 
 
     @Override
-    public PingData sendApiRequest(EtcOrderQueryRequest req) throws Throwable {
+    public EtcOrderBo sendApiRequest(EtcOrderQueryRequest req) throws Throwable {
         ThirdApiHttpTask<String> task = new ThirdApiHttpTask<>();
-        task.setUrl(BusiConstant.URL_2);
-        task.setClazz(PingData.class);
+        task.setUrl(BusiConstant.URL_1);
+        task.setClazz(EtcOrderBo.class);
         task.setData(JsonUtil.seriazileAsString(req));
         task.setContentType(ContentType.APPLICATION_JSON);
-        return apiHttpClientTemplate.doGet(task);
+        return apiHttpClientTemplate.doPost(task);
     }
 
 
     @Override
     public PingData sendApiRequest1(EtcOrderQueryRequest req) throws Throwable {
         ThirdApiHttpTask<String> task = new ThirdApiHttpTask<>();
-        task.setUrl(BusiConstant.URL_2);
+        task.setUrl(BusiConstant.URL_1);
         task.setClazz(PingData.class);
         task.setData(JsonUtil.seriazileAsString(req));
         task.setContentType(ContentType.APPLICATION_JSON);

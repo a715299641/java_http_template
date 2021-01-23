@@ -6,11 +6,14 @@ import com.liuyuan.http.req.PingData;
 import com.liuyuan.http.service.impl.TencentServiceImpl;
 import com.liuyuan.http.service.impl.ThridApiServiceImpl;
 import com.liuyuan.http.util.JsonUtil;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
 
 /**
  * @Author: liuyuan
@@ -31,10 +34,9 @@ public class TestController {
         EtcOrderQueryRequest request = new EtcOrderQueryRequest();
         request.setPage(1L);
         request.setSize(50L);
-        PingData pingData = thridApiService.sendApiRequest(request);
+        EtcOrderBo pingData = thridApiService.sendApiRequest(request);
         System.out.println(JsonUtil.seriazileAsString(pingData));
 
-//        EtcOrderBo etcOrderBo1 = thridApiService.sendTencentRequest(request);
     }
 
     @GetMapping("/test1")
@@ -56,6 +58,21 @@ public class TestController {
         request.setSize(50L);
         PingData etcOrderBo1 = tencentService.sendTencentRequest(request);
         System.out.println(2);
+    }
 
+    @PostMapping("/test3")
+    @ResponseBody
+    public EtcOrderBo test3(@RequestBody EtcOrderQueryRequest etcOrderQueryRequest) throws Throwable {
+        EtcOrderBo etcOrderBo = new EtcOrderBo();
+        etcOrderBo.setCompanyId(1L);
+        etcOrderBo.setActualDestAddr("destAddr");
+        etcOrderBo.setDestAddr("DestAddr");
+        etcOrderBo.setEndTime(new Date());
+        etcOrderBo.setId(1L);
+        etcOrderBo.setExternalId("externalId");
+        etcOrderBo.setFee(1L);
+        etcOrderBo.setInvoiceStatus("invoice");
+        etcOrderBo.setNotifyStatus("notify");
+        return etcOrderBo;
     }
 }

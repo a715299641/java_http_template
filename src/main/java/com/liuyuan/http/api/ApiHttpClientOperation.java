@@ -137,6 +137,7 @@ public class ApiHttpClientOperation extends AbstractHttpClientOperation
         }
         try {
             T execute = httpClient.execute(post, callback, task.getContext());
+
             return execute;
         } catch (Throwable e) {
             post.abort();
@@ -156,7 +157,8 @@ public class ApiHttpClientOperation extends AbstractHttpClientOperation
 //                    task.getContentType().getMimeType());
 //        }
         try {
-            return httpClient.execute(httpGet, callback, task.getContext());
+            T execute = httpClient.execute(httpGet, callback, task.getContext());
+            return execute;
         } catch (Throwable e) {
             httpGet.abort();
             throw e;

@@ -16,7 +16,7 @@ public interface ThridApiService {
      * @param req
      * @return
      */
-    PingData  sendApiRequest(EtcOrderQueryRequest req) throws Throwable;
+    EtcOrderBo  sendApiRequest(EtcOrderQueryRequest req) throws Throwable;
 
 
     PingData  sendApiRequest1(EtcOrderQueryRequest req) throws Throwable;
