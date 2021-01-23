@@ -104,21 +104,25 @@ public class HttpClientFactoryBean extends HttpClientPoolConfig
 		} catch (KeyStoreException e) {
 			throw new RuntimeException(e);
 		}
-		sslcontext.init(null, new TrustManager[] { new X509TrustManager() {
-			@Override
-			public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-			}
+//		sslcontext.init(null, new TrustManager[] { new X509TrustManager() {
+//			@Override
+//			public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+//			}
+//
+//			@Override
+//			public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+//			}
+//
+//			@Override
+//			public X509Certificate[] getAcceptedIssuers() {
+//				return null;
+//			}
+//		} }, null);
+//		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext);// 4.3.5
 
-			@Override
-			public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-			}
-
-			@Override
-			public X509Certificate[] getAcceptedIssuers() {
-				return null;
-			}
-		} }, null);
-		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext);// 4.3.5
+		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+				sslcontext,
+				SSLConnectionSocketFactory.getDefaultHostnameVerifier());
 		Registry<ConnectionSocketFactory> r = RegistryBuilder.<ConnectionSocketFactory>create()
 				.register("http", PlainConnectionSocketFactory.getSocketFactory()).register("https", sslsf).build();
 		pool = new PoolingHttpClientConnectionManager(r, null, null, null, this.getConnTimeToLive(), TimeUnit.SECONDS);

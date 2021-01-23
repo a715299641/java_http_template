@@ -41,8 +41,9 @@ public class JavaHttpTmpApplication {
     @Bean(name = "apiHttpClientFactoryBean")
     public HttpClientFactoryBean getHttpClientFactoryBean() {
         HttpClientFactoryBean factoryBean = new HttpClientFactoryBean();
-        factoryBean.setMaxTotal(1);
+        factoryBean.setMaxTotal(100);
         factoryBean.setRetry(1);
+        factoryBean.setSocketTimeout(2000);
         return factoryBean;
     }
 
@@ -67,6 +68,7 @@ public class JavaHttpTmpApplication {
     public HttpClientFactoryBean getTencentHttpClientFactoryBean() {
         HttpClientFactoryBean factoryBean = new HttpClientFactoryBean();
         factoryBean.setMaxTotal(100);
+        factoryBean.setSocketTimeout(3000);
         return factoryBean;
     }
 
