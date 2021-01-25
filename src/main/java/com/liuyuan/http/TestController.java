@@ -57,12 +57,29 @@ public class TestController {
         request.setPage(1L);
         request.setSize(50L);
         PingData etcOrderBo1 = tencentService.sendTencentRequest(request);
-        System.out.println(2);
+        System.out.println(JsonUtil.seriazileAsString(etcOrderBo1));
     }
 
     @PostMapping("/test3")
     @ResponseBody
     public EtcOrderBo test3(@RequestBody EtcOrderQueryRequest etcOrderQueryRequest) throws Throwable {
+        EtcOrderBo etcOrderBo = new EtcOrderBo();
+        etcOrderBo.setCompanyId(1L);
+        etcOrderBo.setActualDestAddr("destAddr");
+        etcOrderBo.setDestAddr("DestAddr");
+        etcOrderBo.setEndTime(new Date());
+        etcOrderBo.setId(1L);
+        etcOrderBo.setExternalId("externalId");
+        etcOrderBo.setFee(1L);
+        etcOrderBo.setInvoiceStatus("invoice");
+        etcOrderBo.setNotifyStatus("notify");
+        return etcOrderBo;
+    }
+
+
+    @PostMapping("/test4")
+    @ResponseBody
+    public EtcOrderBo test4(@RequestBody EtcOrderQueryRequest etcOrderQueryRequest) throws Throwable {
         EtcOrderBo etcOrderBo = new EtcOrderBo();
         etcOrderBo.setCompanyId(1L);
         etcOrderBo.setActualDestAddr("destAddr");

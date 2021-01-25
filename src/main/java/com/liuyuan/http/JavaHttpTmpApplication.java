@@ -2,6 +2,7 @@ package com.liuyuan.http;
 
 import com.liuyuan.http.api.ApiHttpClientOperation;
 import com.liuyuan.http.api.TencentHttpClientOperation;
+import com.liuyuan.http.http.BaseHttpClientOperation;
 import com.liuyuan.http.http.HttpClientFactoryBean;
 import com.liuyuan.http.http.HttpClientTemplate;
 import com.liuyuan.http.service.impl.ThridApiServiceImpl;
@@ -41,9 +42,9 @@ public class JavaHttpTmpApplication {
     @Bean(name = "apiHttpClientFactoryBean")
     public HttpClientFactoryBean getHttpClientFactoryBean() {
         HttpClientFactoryBean factoryBean = new HttpClientFactoryBean();
-        factoryBean.setMaxTotal(100);
-        factoryBean.setRetry(1);
+        factoryBean.setMaxTotal(1);
         factoryBean.setSocketTimeout(2000);
+        factoryBean.setRetry(4);
         return factoryBean;
     }
 
@@ -67,8 +68,9 @@ public class JavaHttpTmpApplication {
     @Bean(name = "tencentHttpClientFactoryBean")
     public HttpClientFactoryBean getTencentHttpClientFactoryBean() {
         HttpClientFactoryBean factoryBean = new HttpClientFactoryBean();
-        factoryBean.setMaxTotal(100);
-        factoryBean.setSocketTimeout(3000);
+        factoryBean.setMaxTotal(1);
+        factoryBean.setRetry(5);
+        factoryBean.setSocketTimeout(20000);
         return factoryBean;
     }
 
