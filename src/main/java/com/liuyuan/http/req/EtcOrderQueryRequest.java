@@ -13,9 +13,9 @@ import java.util.List;
 */
 public class EtcOrderQueryRequest  {
 
-    private Long page;
+    public Long page;
 
-    private Long size;
+    public Long size;
 
     public Long getPage() {
         return page;

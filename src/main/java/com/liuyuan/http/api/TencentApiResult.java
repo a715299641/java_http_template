@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
  * @Author: liuyuan
  * @Date: 2021/1/16 3:47 下午
  */
-public class ThirdApiResult  implements HttpResult {
+public class TencentApiResult implements HttpResult {
 
     /**
      * 返回码
@@ -24,9 +24,9 @@ public class ThirdApiResult  implements HttpResult {
      */
     private String message;
 
-    protected static Logger logger = LoggerFactory.getLogger(ThirdApiResult.class);
+    protected static Logger logger = LoggerFactory.getLogger(TencentApiResult.class);
 
-    public ThirdApiResult() {
+    public TencentApiResult() {
 
     }
 
@@ -34,7 +34,7 @@ public class ThirdApiResult  implements HttpResult {
         return status;
     }
 
-    public ThirdApiResult(int status, String message) {
+    public TencentApiResult(int status, String message) {
         this.status = status;
         this.message = message;
     }
@@ -65,14 +65,14 @@ public class ThirdApiResult  implements HttpResult {
         }
 
         // 报文中包含 "status":0
-        if (data.contains("\"status\": 0,")) {
+        if (data.contains("\"errcode\": 0,")) {
             return JsonUtil.deserializeAsObject(data, clazz);
         } else if (data.contains("\"errcode\":")) {
-            ThirdApiResult thirdApiResult = JsonUtil.deserializeAsObject(data, ThirdApiResult.class);
-            ThirdApiResultEnum tenCentResultEnum = ThirdApiResultEnum.getThirdApiResultEnumByCode(thirdApiResult.getStatus());
-            thirdApiResult.setMessage((tenCentResultEnum.getCode() == ThirdApiResultEnum.EX_1.getCode())
+            TencentApiResult tenCentResult = JsonUtil.deserializeAsObject(data, TencentApiResult.class);
+            ThirdApiResultEnum tenCentResultEnum = ThirdApiResultEnum.getThirdApiResultEnumByCode(tenCentResult.getStatus());
+            tenCentResult.setMessage((tenCentResultEnum.getCode() == ThirdApiResultEnum.EX_1.getCode())
                     ? (ThirdApiResultEnum.EX_1.getMsg() + " : " + data) : tenCentResultEnum.getMsg());
-            return (T) thirdApiResult;
+            return (T) tenCentResult;
         }else {
             return JsonUtil.deserializeAsObject(data, clazz);
         }

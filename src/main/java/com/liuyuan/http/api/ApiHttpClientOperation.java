@@ -1,17 +1,19 @@
 package com.liuyuan.http.api;
 
 
-import com.liuyuan.http.exception.DefaultHttpResponseException;
-import com.liuyuan.http.http.*;
+import com.liuyuan.http.http.BaseHttpClientOperation;
+import com.liuyuan.http.http.HttpClientConstant;
+import com.liuyuan.http.http.HttpResponseCallback;
+import com.liuyuan.http.http.HttpTask;
 import com.liuyuan.http.util.JAXBUtils;
 import com.liuyuan.http.util.JsonUtil;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import com.liuyuan.http.util.StringHelper;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
+
 
 
 /**
@@ -22,21 +24,11 @@ public class ApiHttpClientOperation extends BaseHttpClientOperation {
 
 
 
-
-
-    /**
-     * @param task
-     * @return
-     * @throws Throwable
-     */
-    private String getTenCentUrl(ThirdApiHttpTask<?> task) throws Throwable {
-        return task.getUrl();
-    }
-
     @Override
     public <T, P> T doSendPostBasicRequest(CloseableHttpClient httpClient, HttpTask<P> task,
                                            HttpResponseCallback<T> callback) throws Throwable {
         System.out.println(httpClientFactoryBeanKey);
+        System.out.println(httpClientFactoryBean);
         // 获取wechat token url
         task.setUrl(task.getUrl());
         // post 请求
@@ -79,14 +71,14 @@ public class ApiHttpClientOperation extends BaseHttpClientOperation {
                                           HttpResponseCallback<T> callback) throws Throwable {
         System.out.println(httpClientFactoryBeanKey);
         System.out.println(httpClientFactoryBean);
-        task.setUrl(getTenCentUrl((ThirdApiHttpTask<P>) task));
-        HttpGet httpGet = new HttpGet(/*task.getData() != null
+        task.setUrl(task.getUrl());
+        HttpGet httpGet = new HttpGet(task.getData() != null
                 ? StringHelper.concatUri(task.getUrl(), StringHelper.parseURLPair(task.getData()))
-                : */task.getUrl());
-//        if (task.getContentType() != null) {
-//            httpGet.setHeader(HttpClientConstant.HeaderType.CONTENT_TYPE_KEY.getType(),
-//                    task.getContentType().getMimeType());
-//        }
+                : task.getUrl());
+        if (task.getContentType() != null) {
+            httpGet.setHeader(HttpClientConstant.HeaderType.CONTENT_TYPE_KEY.getType(),
+                    task.getContentType().getMimeType());
+        }
         try {
             T execute = httpClient.execute(httpGet, callback, task.getContext());
             return execute;
@@ -97,36 +89,7 @@ public class ApiHttpClientOperation extends BaseHttpClientOperation {
     }
 
 
-//    @Override
-//    public <T, P> T doSendPostRequest(CloseableHttpClient httpClient, final HttpTask<P> task) throws Throwable {
-//        return doSendPostBasicRequest(httpClient, task, new HttpResponseCallback<T>() {
-//            @Override
-//            public T doCallback(CloseableHttpResponse response) throws Throwable {
-//                String retStr = EntityUtils.toString(response.getEntity(), HttpClientConstant.UTF_8);
-//                logger.debug("doSendPostRequest request data:{}; response data: {}",
-//                        JsonUtil.seriazileAsString(task), retStr);
-//                return ThirdApiResult.convertTenCentLoaction(retStr, task.getClazz());
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public <T, P> T doSendGetRequest(CloseableHttpClient httpClient, final HttpTask<P> task) throws Throwable {
-//        return doSendGetBasicRequest(httpClient, task, new HttpResponseCallback<T>() {
-//            @Override
-//            public T doCallback(CloseableHttpResponse response) throws Throwable {
-//                String retStr = EntityUtils.toString(response.getEntity(), HttpClientConstant.UTF_8);
-//                logger.debug("doSendGetRequest request data:{}; response data: {}",
-//                        JsonUtil.seriazileAsString(task), retStr);
-//                return ThirdApiResult.convertTenCentLoaction(retStr, task.getClazz());
-//            }
-//        });
-//    }
 
 
 
-    @Override
-    public boolean isBizRetry(DefaultHttpResponseException e, Object obj) {
-        return false;
-    }
 }

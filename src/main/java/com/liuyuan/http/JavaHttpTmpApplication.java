@@ -1,7 +1,9 @@
 package com.liuyuan.http;
 
 import com.liuyuan.http.api.ApiHttpClientOperation;
+import com.liuyuan.http.api.TencentApiResult;
 import com.liuyuan.http.api.TencentHttpClientOperation;
+import com.liuyuan.http.api.ThirdApiResult;
 import com.liuyuan.http.http.BaseHttpClientOperation;
 import com.liuyuan.http.http.HttpClientFactoryBean;
 import com.liuyuan.http.http.HttpClientTemplate;
@@ -27,8 +29,7 @@ public class JavaHttpTmpApplication {
     @Bean(name = "apiHttpClientTemplate")
     public HttpClientTemplate getApiHttpClientTemplate() {
         HttpClientTemplate template = new HttpClientTemplate();
-        ApiHttpClientOperation apiHttpClientOperation = new ApiHttpClientOperation();
-        apiHttpClientOperation.setHttpClientFactoryBeanKey("apiHttpClientFactoryBean");
+        ApiHttpClientOperation apiHttpClientOperation = getApiHttpClientOperation();
         template.setHttpClientOperation(apiHttpClientOperation);
         return template;
     }
@@ -36,6 +37,8 @@ public class JavaHttpTmpApplication {
     @Bean(name = "apiHttpClientOperation")
     public ApiHttpClientOperation getApiHttpClientOperation() {
         ApiHttpClientOperation operation = new ApiHttpClientOperation();
+        operation.setHttpClientFactoryBeanKey("apiHttpClientFactoryBean");
+        operation.setHttpResult(getThirdApiResult());
         return operation;
     }
 
@@ -43,9 +46,15 @@ public class JavaHttpTmpApplication {
     public HttpClientFactoryBean getHttpClientFactoryBean() {
         HttpClientFactoryBean factoryBean = new HttpClientFactoryBean();
         factoryBean.setMaxTotal(1);
-        factoryBean.setSocketTimeout(2000);
+        factoryBean.setSocketTimeout(20000);
         factoryBean.setRetry(4);
         return factoryBean;
+    }
+
+    @Bean
+    public  ThirdApiResult  getThirdApiResult() {
+        ThirdApiResult result = new ThirdApiResult();
+        return result;
     }
 
 
@@ -53,8 +62,7 @@ public class JavaHttpTmpApplication {
     @Bean(name = "tencentHttpClientTemplate")
     public HttpClientTemplate getTencentHttpClientTemplate() {
         HttpClientTemplate template = new HttpClientTemplate();
-        TencentHttpClientOperation apiHttpClientOperation = new TencentHttpClientOperation();
-        apiHttpClientOperation.setHttpClientFactoryBeanKey("tencentHttpClientFactoryBean");
+        TencentHttpClientOperation apiHttpClientOperation = getTencentHttpClientOperation();
         template.setHttpClientOperation(apiHttpClientOperation);
         return template;
     }
@@ -62,6 +70,8 @@ public class JavaHttpTmpApplication {
     @Bean(name = "tencentHttpClientOperation")
     public TencentHttpClientOperation getTencentHttpClientOperation() {
         TencentHttpClientOperation operation = new TencentHttpClientOperation();
+        operation.setHttpClientFactoryBeanKey("tencentHttpClientFactoryBean");
+        operation.setHttpResult(getTencentApiResult());
         return operation;
     }
 
@@ -72,6 +82,12 @@ public class JavaHttpTmpApplication {
         factoryBean.setRetry(5);
         factoryBean.setSocketTimeout(20000);
         return factoryBean;
+    }
+
+    @Bean
+    public TencentApiResult getTencentApiResult() {
+        TencentApiResult result = new TencentApiResult();
+        return result;
     }
 
     @Bean

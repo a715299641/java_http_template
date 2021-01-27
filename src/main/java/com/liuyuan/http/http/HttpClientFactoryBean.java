@@ -169,6 +169,7 @@ public class HttpClientFactoryBean extends HttpClientPoolConfig
 	 * @throws Exception
 	 */
 	private CloseableHttpClient getCloseableHttpClient(RequestConfig requestConfig) throws Exception {
+		System.out.println(pool);
 		return HttpClients.custom().setConnectionManager(pool).setRetryHandler(this.getHttpRequestRetryHandler())
 				.setServiceUnavailableRetryStrategy(this.getServiceUnavailableRetryStrategy()).setKeepAliveStrategy(this.getConnectionKeepAliveStrategy())
 				.setDefaultRequestConfig(requestConfig).build();

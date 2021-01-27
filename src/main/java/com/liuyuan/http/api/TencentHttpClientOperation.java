@@ -6,6 +6,7 @@ import com.liuyuan.http.http.*;
 import com.liuyuan.http.util.JAXBUtils;
 import com.liuyuan.http.util.JsonUtil;
 import com.liuyuan.http.util.StringHelper;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -13,14 +14,17 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.InitializingBean;
 
 
 /**
  * @Author: liuyuan
  * @Date: 2021/1/16 3:47 下午
  */
-public class TencentHttpClientOperation extends BaseHttpClientOperation {
-
+public class TencentHttpClientOperation extends BaseHttpClientOperation  {
 
 
     /**
@@ -36,6 +40,7 @@ public class TencentHttpClientOperation extends BaseHttpClientOperation {
     public <T, P> T doSendPostBasicRequest(CloseableHttpClient httpClient, HttpTask<P> task,
                                            HttpResponseCallback<T> callback) throws Throwable {
         System.out.println(httpClientFactoryBeanKey);
+        System.out.println(httpClientFactoryBean);
         // 获取wechat token url
         task.setUrl(task.getUrl());
         // post 请求

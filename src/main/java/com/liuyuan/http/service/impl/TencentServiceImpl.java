@@ -1,6 +1,7 @@
 package com.liuyuan.http.service.impl;
 
 
+import com.liuyuan.http.api.TencentApiHttpTask;
 import com.liuyuan.http.api.ThirdApiHttpTask;
 import com.liuyuan.http.constant.BusiConstant;
 import com.liuyuan.http.http.HttpClientTemplate;
@@ -28,12 +29,12 @@ public class TencentServiceImpl implements TencentApiService {
 
     @Override
     public PingData sendTencentRequest(EtcOrderQueryRequest req) throws Throwable {
-        ThirdApiHttpTask<String> task = new ThirdApiHttpTask<>();
+        TencentApiHttpTask<EtcOrderQueryRequest> task = new TencentApiHttpTask<>();
         task.setUrl(BusiConstant.URL_2);
         task.setClazz(PingData.class);
-        task.setData(JsonUtil.seriazileAsString(req));
+        task.setData(req);
         task.setContentType(ContentType.APPLICATION_JSON);
-        return tencentHttpClientTemplate.doPost(task);
+        return tencentHttpClientTemplate.doGet(task);
     }
 
 }

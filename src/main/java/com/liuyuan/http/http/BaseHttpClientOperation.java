@@ -1,6 +1,7 @@
 package com.liuyuan.http.http;
 
 
+import com.liuyuan.http.api.ApiHttpClientOperation;
 import com.liuyuan.http.api.ThirdApiHttpTask;
 import com.liuyuan.http.api.ThirdApiResult;
 import com.liuyuan.http.exception.DefaultHttpResponseException;
@@ -21,29 +22,40 @@ import org.springframework.beans.factory.InitializingBean;
  * @Author: ly
  * @Data: 2018/12/29 11:16
  */
-public class BaseHttpClientOperation extends AbstractHttpClientOperation
-        implements InitializingBean, BeanFactoryAware {
+public class BaseHttpClientOperation extends AbstractHttpClientOperation implements InitializingBean, BeanFactoryAware {
+
+    public HttpResult httpResult;
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     static final String DEFAULT_HTTPCLIENT_FACTORY_BEAN_KEY = "httpClientFactoryBean";
 
-    public  String httpClientFactoryBeanKey = DEFAULT_HTTPCLIENT_FACTORY_BEAN_KEY;
+    public   String httpClientFactoryBeanKey = DEFAULT_HTTPCLIENT_FACTORY_BEAN_KEY;
 
 
-    public  HttpClientFactoryBean httpClientFactoryBean;
+    public   HttpClientFactoryBean httpClientFactoryBean;
 
-    public BeanFactory beanFactory;
+    public  BeanFactory beanFactory;
 
-    public  RequestConfig defaultRequestConfig;
+    public   RequestConfig defaultRequestConfig;
 
-
-    public void setHttpClientFactoryBeanKey(String httpClientFactoryBeanKey) {
-        httpClientFactoryBeanKey = httpClientFactoryBeanKey;
+    public void setHttpResult(HttpResult httpResult) {
+        this.httpResult = httpResult;
     }
 
+    public void setHttpClientFactoryBeanKey(String httpClientFactoryBeanKey) {
+        this.httpClientFactoryBeanKey = httpClientFactoryBeanKey;
+    }
+
+
     public void setHttpClientFactoryBean(HttpClientFactoryBean httpClientFactoryBean) {
-        httpClientFactoryBean = httpClientFactoryBean;
+        this.httpClientFactoryBean = httpClientFactoryBean;
+    }
+
+
+
+    public void setDefaultRequestConfig(RequestConfig defaultRequestConfig) {
+        this.defaultRequestConfig = defaultRequestConfig;
     }
 
     @Override
@@ -51,13 +63,11 @@ public class BaseHttpClientOperation extends AbstractHttpClientOperation
         this.beanFactory = beanFactory;
     }
 
-    public void setDefaultRequestConfig(RequestConfig defaultRequestConfig) {
-        defaultRequestConfig = defaultRequestConfig;
-    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         try {
+            System.out.println(1);
             httpClientFactoryBean = beanFactory.getBean(httpClientFactoryBeanKey, HttpClientFactoryBean.class);
             defaultRequestConfig = RequestConfig.custom()
                     .setConnectionRequestTimeout(httpClientFactoryBean.getConnectionRequestTimeout())
@@ -88,14 +98,6 @@ public class BaseHttpClientOperation extends AbstractHttpClientOperation
         }, task);
     }
 
-    /**
-     * @param task
-     * @return
-     * @throws Throwable
-     */
-    private String getTenCentUrl(ThirdApiHttpTask<?> task) throws Throwable {
-        return task.getUrl();
-    }
 
     @Override
     public <T, P> T doSendPostBasicRequest(CloseableHttpClient httpClient, HttpTask<P> task,
@@ -117,7 +119,7 @@ public class BaseHttpClientOperation extends AbstractHttpClientOperation
                 String retStr = EntityUtils.toString(response.getEntity(), HttpClientConstant.UTF_8);
                     logger.debug("doSendPostRequest request data:{}; response data: {}",
                             JsonUtil.seriazileAsString(task), retStr);
-                return ThirdApiResult.convertTenCentLoaction(retStr, task.getClazz());
+                return httpResult.convertTenCentLoaction(retStr, task.getClazz());
             }
         });
     }
@@ -130,7 +132,7 @@ public class BaseHttpClientOperation extends AbstractHttpClientOperation
                 String retStr = EntityUtils.toString(response.getEntity(), HttpClientConstant.UTF_8);
                     logger.debug("doSendGetRequest request data:{}; response data: {}",
                             JsonUtil.seriazileAsString(task), retStr);
-                return ThirdApiResult.convertTenCentLoaction(retStr, task.getClazz());
+                return httpResult.convertTenCentLoaction(retStr, task.getClazz());
             }
         });
     }
@@ -144,6 +146,6 @@ public class BaseHttpClientOperation extends AbstractHttpClientOperation
 
     @Override
     public boolean isBizRetry(DefaultHttpResponseException e, Object obj) {
-        return true;
+        return false;
     }
 }
