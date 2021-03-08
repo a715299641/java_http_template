@@ -4,12 +4,10 @@ import com.liuyuan.http.api.ApiHttpClientOperation;
 import com.liuyuan.http.api.TencentApiResult;
 import com.liuyuan.http.api.TencentHttpClientOperation;
 import com.liuyuan.http.api.ThirdApiResult;
-import com.liuyuan.http.http.BaseHttpClientOperation;
 import com.liuyuan.http.http.HttpClientFactoryBean;
 import com.liuyuan.http.http.HttpClientTemplate;
 import com.liuyuan.http.service.impl.ThridApiServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +32,7 @@ public class JavaHttpTmpApplication {
         return template;
     }
 
-    @Bean(name = "apiHttpClientOperation")
+    @Bean
     public ApiHttpClientOperation getApiHttpClientOperation() {
         ApiHttpClientOperation operation = new ApiHttpClientOperation();
         operation.setHttpClientFactoryBeanKey("apiHttpClientFactoryBean");
@@ -67,7 +65,7 @@ public class JavaHttpTmpApplication {
         return template;
     }
 
-    @Bean(name = "tencentHttpClientOperation")
+    @Bean
     public TencentHttpClientOperation getTencentHttpClientOperation() {
         TencentHttpClientOperation operation = new TencentHttpClientOperation();
         operation.setHttpClientFactoryBeanKey("tencentHttpClientFactoryBean");
@@ -90,12 +88,4 @@ public class JavaHttpTmpApplication {
         return result;
     }
 
-    @Bean
-    public ApplicationRunner runner() throws Throwable {
-//        EtcOrderQueryRequest request = new EtcOrderQueryRequest();
-//        request.setPage(1L);
-//        request.setSize(50L);
-//        PingData pingData = thridApiService.sendApiRequest(request);
-        return args -> System.out.println(123);
-    }
 }

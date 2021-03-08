@@ -28,6 +28,7 @@ public abstract class AbstractHttpClientOperation implements HttpClientOperation
 		return DEFAULT_CONTENT_TYPE;
 	}
 
+	@Override
 	public <T, P> T doPost(final HttpTask<P> task) throws Throwable {
 		return exec(new HttpClientCallback<T>() {
 			@Override
@@ -40,6 +41,7 @@ public abstract class AbstractHttpClientOperation implements HttpClientOperation
 		}, task);
 	}
 
+	@Override
 	public <T, P> T doGet(final HttpTask<P> task) throws Throwable {
 		return exec(new HttpClientCallback<T>() {
 			@Override
@@ -116,7 +118,8 @@ public abstract class AbstractHttpClientOperation implements HttpClientOperation
 	 * 是否业务重试
 	 */
 	public abstract boolean isBizRetry(DefaultHttpResponseException e, Object obj);
-	
+
+
 	/**
 	 * 重试回调
 	 * @author liuyuan
@@ -139,24 +142,16 @@ public abstract class AbstractHttpClientOperation implements HttpClientOperation
 		do {
 			try {
 				T result = callback.doCallback();
-				//错误处理
-				if (result != null && result instanceof HttpResult) {
-					HttpResult httpResult = (HttpResult) result;
-					if (httpResult.getErrcode() != 0) {
-						//String errorParamsStr = (errorParams == null) ? "" : JsonUtil.seriazileAsString(errorParams);
-						logger.warn(
-								"An error occurred in the http task, retry times: {}, errorParams: {}, wechat error: {} ",
-								_retry_times, "", JsonUtil.seriazileAsString(result));
-						throw new DefaultHttpResponseException(result);
-					}
+				//错误处理之后进行业务重试   默认不重试  如果需要重试  联系liuyuan@kuaihuoyun.com
+				if(retryCondition(result)){
+					throw new DefaultHttpResponseException(result);
 				}
-				//其他调用错误处理
 
 				//返回结果
 				return result;
 			}
 			catch (DefaultHttpResponseException e) {
-				//微信异常处理
+				//异常处理
 				if (errorParams != null) {
 					// 以下业务 不重试
 					if (!isBizRetry(e, errorParams)) {
@@ -173,22 +168,9 @@ public abstract class AbstractHttpClientOperation implements HttpClientOperation
 		// retry fail error log
 		return null;
 	}
-	/**
-	 * 关闭httpResponse
-	 * 
-	 * @param httpResponse
-	 */
-	public void closeHttpResponse(CloseableHttpResponse httpResponse) {
-		try {
-			if (httpResponse != null) {
-				EntityUtils.consume(httpResponse.getEntity());
-				httpResponse.close();
-			}
-		} catch (IOException e) {
-			httpResponse = null;
-			logger.error("close httpResponse error.", e);
-		}
-	}
-	
-	
+
+	public abstract  <T> boolean retryCondition(T result);
+
+
+
 }

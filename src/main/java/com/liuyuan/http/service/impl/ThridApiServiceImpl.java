@@ -26,10 +26,10 @@ public class ThridApiServiceImpl implements ThridApiService {
 
     @Override
     public EtcOrderBo sendApiRequest(EtcOrderQueryRequest req) throws Throwable {
-        ThirdApiHttpTask<String> task = new ThirdApiHttpTask<>();
+        ThirdApiHttpTask<EtcOrderQueryRequest> task = new ThirdApiHttpTask<>();
         task.setUrl(BusiConstant.URL_4);
         task.setClazz(EtcOrderBo.class);
-        task.setData(JsonUtil.seriazileAsString(req));
+        task.setData(req);
         task.setContentType(ContentType.APPLICATION_JSON);
         return apiHttpClientTemplate.doGet(task);
     }

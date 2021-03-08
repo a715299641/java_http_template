@@ -1,8 +1,6 @@
 package com.liuyuan.http;
 
-import com.liuyuan.http.req.EtcOrderBo;
-import com.liuyuan.http.req.EtcOrderQueryRequest;
-import com.liuyuan.http.req.PingData;
+import com.liuyuan.http.req.*;
 import com.liuyuan.http.service.impl.TencentServiceImpl;
 import com.liuyuan.http.service.impl.ThridApiServiceImpl;
 import com.liuyuan.http.util.JsonUtil;
@@ -90,6 +88,36 @@ public class TestController {
         etcOrderBo.setFee(1L);
         etcOrderBo.setInvoiceStatus("invoice");
         etcOrderBo.setNotifyStatus("notify");
+        return etcOrderBo;
+    }
+
+    @PostMapping("/test5")
+    @ResponseBody
+    public DeptTransportResultBo test5(@RequestBody LoginBo etc) throws Throwable {
+        DeptTransportResultBo etcOrderBo = new DeptTransportResultBo();
+        etcOrderBo.setData("token");
+        etcOrderBo.setCode(1001L);
+        etcOrderBo.setMsg("成功");
+        etcOrderBo.setSuccess(true);
+        return etcOrderBo;
+    }
+
+    @PostMapping("/test6")
+    @ResponseBody
+    public DeptTransportResultBo test6(@RequestBody Message etcOrderQueryRequest) throws Throwable {
+        DeptTransportResultBo etcOrderBo = new DeptTransportResultBo();
+        if(etcOrderQueryRequest.getHeader().getToken().equals("token")){
+            etcOrderBo.setData("token");
+            etcOrderBo.setCode(1001L);
+            etcOrderBo.setMsg("成功");
+            etcOrderBo.setSuccess(true);
+        }else {
+        etcOrderBo.setData("token");
+        etcOrderBo.setCode(2001L);
+        etcOrderBo.setMsg("成功");
+        etcOrderBo.setSuccess(false);
+        }
+
         return etcOrderBo;
     }
 }

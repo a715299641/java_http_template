@@ -148,4 +148,9 @@ public class BaseHttpClientOperation extends AbstractHttpClientOperation impleme
     public boolean isBizRetry(DefaultHttpResponseException e, Object obj) {
         return false;
     }
+
+    @Override
+    public <T> boolean retryCondition(T result) {
+        return false;
+    }
 }

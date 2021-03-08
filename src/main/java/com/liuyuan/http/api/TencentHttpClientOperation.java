@@ -27,14 +27,7 @@ import org.springframework.beans.factory.InitializingBean;
 public class TencentHttpClientOperation extends BaseHttpClientOperation  {
 
 
-    /**
-     * @param task
-     * @return
-     * @throws Throwable
-     */
-    private String getTenCentUrl(ThirdApiHttpTask<?> task) throws Throwable {
-        return task.getUrl();
-    }
+
 
     @Override
     public <T, P> T doSendPostBasicRequest(CloseableHttpClient httpClient, HttpTask<P> task,
@@ -82,7 +75,7 @@ public class TencentHttpClientOperation extends BaseHttpClientOperation  {
                                           HttpResponseCallback<T> callback) throws Throwable {
         System.out.println(httpClientFactoryBeanKey);
         System.out.println(httpClientFactoryBean);
-        task.setUrl(getTenCentUrl((ThirdApiHttpTask<P>) task));
+        task.setUrl(task.getUrl());
         HttpGet httpGet = new HttpGet(task.getData() != null
                 ? StringHelper.concatUri(task.getUrl(), StringHelper.parseURLPair(task.getData()))
                 : task.getUrl());
@@ -98,31 +91,6 @@ public class TencentHttpClientOperation extends BaseHttpClientOperation  {
         }
     }
 
-//    @Override
-//    public <T, P> T doSendPostRequest(CloseableHttpClient httpClient, final HttpTask<P> task) throws Throwable {
-//        return doSendPostBasicRequest(httpClient, task, new HttpResponseCallback<T>() {
-//            @Override
-//            public T doCallback(CloseableHttpResponse response) throws Throwable {
-//                String retStr = EntityUtils.toString(response.getEntity(), HttpClientConstant.UTF_8);
-//                logger.debug("doSendPostRequest request data:{}; response data: {}",
-//                        JsonUtil.seriazileAsString(task), retStr);
-//                return ThirdApiResult.convertTenCentLoaction(retStr, task.getClazz());
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public <T, P> T doSendGetRequest(CloseableHttpClient httpClient, final HttpTask<P> task) throws Throwable {
-//        return doSendGetBasicRequest(httpClient, task, new HttpResponseCallback<T>() {
-//            @Override
-//            public T doCallback(CloseableHttpResponse response) throws Throwable {
-//                String retStr = EntityUtils.toString(response.getEntity(), HttpClientConstant.UTF_8);
-//                logger.debug("doSendGetRequest request data:{}; response data: {}",
-//                        JsonUtil.seriazileAsString(task), retStr);
-//                return ThirdApiResult.convertTenCentLoaction(retStr, task.getClazz());
-//            }
-//        });
-//    }
 
     @Override
     public boolean isBizRetry(DefaultHttpResponseException e, Object obj) {

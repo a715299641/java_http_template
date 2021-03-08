@@ -29,12 +29,12 @@ public class TencentServiceImpl implements TencentApiService {
 
     @Override
     public PingData sendTencentRequest(EtcOrderQueryRequest req) throws Throwable {
-        TencentApiHttpTask<EtcOrderQueryRequest> task = new TencentApiHttpTask<>();
-        task.setUrl(BusiConstant.URL_2);
+        TencentApiHttpTask<String> task = new TencentApiHttpTask<>();
+        task.setUrl(BusiConstant.URL_3);
         task.setClazz(PingData.class);
-        task.setData(req);
+        task.setData(JsonUtil.seriazileAsString(req));
         task.setContentType(ContentType.APPLICATION_JSON);
-        return tencentHttpClientTemplate.doGet(task);
+        return tencentHttpClientTemplate.doPost(task);
     }
 
 }
