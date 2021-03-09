@@ -25,6 +25,7 @@ import org.springframework.beans.factory.InitializingBean;
  *
  */
 
+
 public class BaseHttpClientOperation extends AbstractHttpClientOperation implements InitializingBean, BeanFactoryAware {
 
     public HttpResult httpResult;
