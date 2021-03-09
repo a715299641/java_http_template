@@ -75,6 +75,31 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>io.github.phillipuniverse</groupId>
+                <artifactId>githook-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>pre-commit-hook</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                        <configuration>
+                            <hooks>
+                                <commit-msg>
+                                    test "" != "$(grep '^\[.*\][ ]{1,}#WLHYVAS-[\\d]{1,6}[ ]{1,}[\\u4e00-\\u9fa50-9A-Za-z ]{1,}$' "$1")" || {
+                                        echo >&amp;2 "注释不符合规范:  [工程或者关键词]  jira任务号  注释"
+                                    exit 1
+                                    }
+                                </commit-msg>
+                            </hooks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

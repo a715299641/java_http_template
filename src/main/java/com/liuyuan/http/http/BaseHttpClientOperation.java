@@ -22,6 +22,7 @@ import org.springframework.beans.factory.InitializingBean;
 /**
  * @Author: ly
  * @Data: 2018/12/29 11:16
+ *
  */
 public class BaseHttpClientOperation extends AbstractHttpClientOperation implements InitializingBean, BeanFactoryAware {
 
